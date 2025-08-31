@@ -9,7 +9,7 @@ COPY app /app/app
 COPY pyproject.toml /app/pyproject.toml
 
 RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir fastapi uvicorn[standard] SQLAlchemy pydantic pydantic-settings python-jose[cryptography] passlib[bcrypt]
+    && pip install --no-cache-dir fastapi uvicorn[standard] SQLAlchemy pydantic[email] pydantic-settings python-jose[cryptography] passlib[bcrypt] python-multipart
 
 EXPOSE 8000
 
