@@ -8,7 +8,6 @@ export function Topbar() {
       </div>
       <div className="flex items-center gap-3">
         <ThemeToggle />
-        <button className="bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded-md text-sm">Create new project</button>
         <div className="w-7 h-7 rounded-full bg-slate-400" />
       </div>
     </header>
