@@ -1,0 +1,163 @@
+meta:
+  title: Example SaaS Business Plan
+  version: 0.1.0
+  created_at: 2025-08-31
+  author: Your Company, Inc.
+
+company:
+  name: Acme Cloud
+  mission: Enable SMBs to automate back-office workflows with AI safely and affordably.
+  vision: Become the trusted automation layer for every SMB by 2030.
+  values:
+    - Customer Obsession
+    - Pragmatic Innovation
+    - Ownership & Integrity
+
+product:
+  overview: >-
+    Acme Cloud is a workflow automation platform that connects common SMB tools
+    (email, spreadsheets, accounting, CRM) and adds AI-assisted automations with
+    human-in-the-loop review.
+  key_features:
+    - No-code workflow builder
+    - AI data extraction and classification
+    - Human-in-the-loop approvals
+    - Integrations: Gmail, Google Sheets, QuickBooks, Slack, HubSpot
+    - Audit trail and role-based access
+  roadmap:
+    now:
+      - Ship QuickBooks + Sheets two-way sync
+      - Add approver SLA tracking
+    next_6_months:
+      - Launch template marketplace
+      - SOC 2 Type I attestation
+    future:
+      - Auto-generated workflow suggestions
+
+market:
+  target_customers:
+    - persona: Operations Manager
+      segment: SMB (20-200 employees)
+      pains:
+        - Manual data entry across tools
+        - Lack of visibility into processes
+      gains:
+        - Hours saved per week
+        - Fewer errors, better compliance
+    - persona: Finance Lead
+      segment: SMB (20-200 employees)
+      pains:
+        - Reconciliation delays
+        - Messy invoice processing
+      gains:
+        - Faster close
+        - Clear audit trail
+  tam_sam_som:
+    tam_usd: 12000000000
+    sam_usd: 2800000000
+    som_usd: 180000000
+  competition:
+    direct:
+      - Zapier for Teams
+      - Make.com
+    indirect:
+      - In-house scripts
+      - Manual processes
+  differentiation:
+    - AI-native with human review
+    - Finance-grade controls and auditability
+    - Opinionated SMB templates
+
+go_to_market:
+  pricing:
+    tiers:
+      - name: Starter
+        price_per_user_per_month: 19
+        includes:
+          - 5 active workflows
+          - 1,000 AI tasks/month
+      - name: Growth
+        price_per_user_per_month: 49
+        includes:
+          - 25 active workflows
+          - 10,000 AI tasks/month
+          - SSO
+      - name: Scale
+        price_per_user_per_month: 99
+        includes:
+          - Unlimited workflows
+          - 100,000 AI tasks/month
+          - Priority support
+  channels:
+    - Content and SEO
+    - Template marketplace
+    - Partner accountants and MSPs
+    - Product-led growth with in-app invites
+  funnel_metrics:
+    signup_to_activate: 40%
+    activate_to_convert_paid: 20%
+    monthly_logo_churn: 2.5%
+
+operations:
+  team:
+    founders:
+      - name: Jane Doe
+        role: CEO
+      - name: John Smith
+        role: CTO
+    hiring_plan:
+      year_1:
+        - 2 Full-stack Engineers
+        - 1 Product Designer
+        - 1 Developer Advocate
+  infrastructure:
+    cloud: AWS
+    region: us-east-1
+    key_services:
+      - ECS/Fargate
+      - RDS Postgres
+      - S3
+      - CloudFront
+      - OpenAI/Anthropic APIs
+  security_compliance:
+    controls:
+      - SSO + MFA
+      - Audit logging
+      - Data encryption at rest and in transit
+    roadmap:
+      - SOC 2 Type I in 6 months
+      - SOC 2 Type II in 12 months
+
+financials:
+  assumptions:
+    arpu_usd: 600
+    gross_margin: 82%
+    cac_payback_months: 8
+  projections:
+    year_1:
+      revenue_usd: 500000
+      gross_margin_usd: 410000
+      burn_usd: 800000
+    year_2:
+      revenue_usd: 1800000
+      gross_margin_usd: 1476000
+      burn_usd: 1200000
+    year_3:
+      revenue_usd: 5200000
+      gross_margin_usd: 4264000
+      burn_usd: 500000
+
+risks:
+  - Vendor API rate limits or pricing changes
+  - Data privacy and compliance obligations
+  - Incumbents copying features
+
+milestones:
+  - name: Private beta
+    due: 2025-10-01
+  - name: Public launch
+    due: 2026-02-01
+  - name: SOC 2 Type I
+    due: 2026-04-01
+
+

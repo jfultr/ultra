@@ -1,0 +1,147 @@
+---
+title: {{ meta.title }}
+version: {{ meta.version }}
+created_at: {{ meta.created_at }}
+author: {{ meta.author }}
+---
+
+# {{ company.name }} — Business Plan
+
+## Mission
+{{ company.mission }}
+
+## Vision
+{{ company.vision }}
+
+## Values
+{% for value in company["values"] %}
+- {{ value }}
+{% endfor %}
+
+## Product
+{{ product.overview }}
+
+### Key Features
+{% for feat in product.key_features %}
+- {{ feat }}
+{% endfor %}
+
+### Roadmap
+- Now:
+{% for item in product.roadmap.now %}
+  - {{ item }}
+{% endfor %}
+- Next 6 months:
+{% for item in product.roadmap.next_6_months %}
+  - {{ item }}
+{% endfor %}
+- Future:
+{% for item in product.roadmap.future %}
+  - {{ item }}
+{% endfor %}
+
+## Market
+### Target Customers
+{% for cust in market.target_customers %}
+- Persona: {{ cust.persona }} ({{ cust.segment }})
+  - Pains:
+  {% for p in cust.pains %}
+    - {{ p }}
+  {% endfor %}
+  - Gains:
+  {% for g in cust.gains %}
+    - {{ g }}
+  {% endfor %}
+{% endfor %}
+
+### TAM / SAM / SOM
+- TAM: ${{ market.tam_sam_som.tam_usd | string | replace(',', '') | trim }}
+- SAM: ${{ market.tam_sam_som.sam_usd | string | replace(',', '') | trim }}
+- SOM: ${{ market.tam_sam_som.som_usd | string | replace(',', '') | trim }}
+
+### Competition
+- Direct:
+{% for c in market.competition.direct %}
+  - {{ c }}
+{% endfor %}
+- Indirect:
+{% for c in market.competition.indirect %}
+  - {{ c }}
+{% endfor %}
+
+### Differentiation
+{% for d in market.differentiation %}
+- {{ d }}
+{% endfor %}
+
+## Go-To-Market
+### Pricing
+{% for tier in go_to_market.pricing.tiers %}
+- {{ tier.name }} — ${{ tier.price_per_user_per_month }}/user/mo
+  - Includes:
+  {% for inc in tier.includes %}
+    - {{ inc }}
+  {% endfor %}
+{% endfor %}
+
+### Channels
+{% for ch in go_to_market.channels %}
+- {{ ch }}
+{% endfor %}
+
+### Funnel Metrics
+- Signup → Activate: {{ go_to_market.funnel_metrics.signup_to_activate }}
+- Activate → Paid: {{ go_to_market.funnel_metrics.activate_to_convert_paid }}
+- Monthly logo churn: {{ go_to_market.funnel_metrics.monthly_logo_churn }}
+
+## Operations
+### Team
+Founders:
+{% for f in operations.team.founders %}
+- {{ f.name }} — {{ f.role }}
+{% endfor %}
+
+Hiring plan (Year 1):
+{% for role in operations.team.hiring_plan.year_1 %}
+- {{ role }}
+{% endfor %}
+
+### Infrastructure
+- Cloud: {{ operations.infrastructure.cloud }} ({{ operations.infrastructure.region }})
+- Key services:
+{% for s in operations.infrastructure.key_services %}
+  - {{ s }}
+{% endfor %}
+
+### Security & Compliance
+- Controls:
+{% for c in operations.security_compliance.controls %}
+  - {{ c }}
+{% endfor %}
+- Roadmap:
+{% for r in operations.security_compliance.roadmap %}
+  - {{ r }}
+{% endfor %}
+
+## Financials
+### Assumptions
+- ARPU: ${{ financials.assumptions.arpu_usd }}
+- Gross margin: {{ financials.assumptions.gross_margin }}
+- CAC payback: {{ financials.assumptions.cac_payback_months }} months
+
+### Projections
+- Year 1: Revenue ${{ financials.projections.year_1.revenue_usd }}, GM ${{ financials.projections.year_1.gross_margin_usd }}, Burn ${{ financials.projections.year_1.burn_usd }}
+- Year 2: Revenue ${{ financials.projections.year_2.revenue_usd }}, GM ${{ financials.projections.year_2.gross_margin_usd }}, Burn ${{ financials.projections.year_2.burn_usd }}
+- Year 3: Revenue ${{ financials.projections.year_3.revenue_usd }}, GM ${{ financials.projections.year_3.gross_margin_usd }}, Burn ${{ financials.projections.year_3.burn_usd }}
+
+## Risks
+{% for risk in risks %}
+- {{ risk }}
+{% endfor %}
+
+## Milestones
+{% for m in milestones %}
+- {{ m.name }} — due {{ m.due }}
+{% endfor %}
+
+
