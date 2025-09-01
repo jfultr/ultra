@@ -1,12 +1,17 @@
-from fastapi.testclient import TestClient
+import pytest
 
+from fastapi.testclient import TestClient
 from app.main import app
 
 
-client = TestClient(app)
+@pytest.fixture
+def client() -> TestClient:
+    client = TestClient(app)
+    yield client
+    client.close()
 
 
-def signup_and_login(email: str, password: str) -> str:
+def signup_and_login(client: TestClient, email: str, password: str) -> str:
     res = client.post("/api/auth/signup", json={"email": email, "password": password})
     if not res.status_code == 409: 
         assert res.status_code == 200, res.text
@@ -17,8 +22,8 @@ def signup_and_login(email: str, password: str) -> str:
     return token
 
 
-def test_item_crud_flow(tmp_path):
-    token = signup_and_login("user@example.com", "password123")
+def test_item_crud_flow(client: TestClient):
+    token = signup_and_login(client, "user@example.com", "password123")
     headers = {"Authorization": f"Bearer {token}"}
 
     # Create
@@ -50,8 +55,3 @@ def test_item_crud_flow(tmp_path):
     # Not found after delete
     res = client.get(f"/api/items/{item_id}", headers=headers)
     assert res.status_code == 404
-
-
-def test_create_new_project(tmp_path):
-    pass
-
