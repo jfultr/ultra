@@ -45,3 +45,10 @@ def get_current_user(
     return user
 
 
+from app.db.models import User
+
+def require_superuser(current_user: User = Depends(get_current_user)):
+    if not current_user.is_superuser:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Admins only")
+    return current_user
+

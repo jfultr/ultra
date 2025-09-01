@@ -15,8 +15,8 @@ def get_user_by_email(db: Session, email: str) -> Optional[models.User]:
     return db.query(models.User).filter(models.User.email == email).first()
 
 
-def create_user(db: Session, email: str, password: str) -> models.User:
-    user = models.User(email=email, hashed_password=get_password_hash(password))
+def create_user(db: Session, email: str, password: str, is_superuser: bool = False) -> models.User:
+    user = models.User(email=email, hashed_password=get_password_hash(password), is_superuser=is_superuser)
     db.add(user)
     db.commit()
     db.refresh(user)
