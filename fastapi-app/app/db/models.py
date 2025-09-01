@@ -13,7 +13,8 @@ class User(Base):
     is_active = Column(Boolean, default=True, nullable=False)
     is_superuser = Column(Boolean, default=False, nullable=False)
 
-    projects = relationship("Project", back_populates="owner", cascade="all, delete-orphan")
+    project_memberships = relationship("ProjectMembership", back_populates="user", cascade="all, delete-orphan")
+    projects = relationship("Project", secondary="project_memberships", back_populates="users", viewonly=True)
 
 
 class Project(Base):
@@ -22,9 +23,21 @@ class Project(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(255), nullable=False)
     description = Column(Text, nullable=True)
-    owner_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
 
-    owner = relationship("User", back_populates="projects")
+    memberships = relationship("ProjectMembership", back_populates="project", cascade="all, delete-orphan")
+    users = relationship("User", secondary="project_memberships", back_populates="projects", viewonly=True)
 
+
+class ProjectMembership(Base):
+    __tablename__ = "project_memberships"
+
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), primary_key=True, index=True)
+    project_id = Column(Integer, ForeignKey("projects.id", ondelete="CASCADE"), primary_key=True, index=True)
+    # roles: owner, editor, viewer
+    role = Column(String(50), nullable=False, default="owner")
+
+    user = relationship("User", back_populates="project_memberships")
+    project = relationship("Project", back_populates="memberships")
+    
 
 
