@@ -37,6 +37,53 @@ def test_project_crud_flow(client: TestClient):
     assert res.status_code == 404
 
 
+def test_non_owner_cannot_delete_project(client: TestClient):
+    # owner creates project
+    owner_token = signup_and_login(client, "owner_del@example.com", "password123")
+    owner_headers = {"Authorization": f"Bearer {owner_token}"}
+    res = client.post("/api/projects/", json={"title": "Del", "description": "X"}, headers=owner_headers)
+    assert res.status_code == 201, res.text
+    project_id = res.json()["id"]
+
+    # editor user
+    editor_token = signup_and_login(client, "editor_del@example.com", "password123")
+    editor_headers = {"Authorization": f"Bearer {editor_token}"}
+
+    # owner adds editor
+    res = client.post(
+        f"/api/projects/{project_id}/users",
+        json={"principal": "editor_del@example.com", "role": "editor"},
+        headers=owner_headers,
+    )
+    assert res.status_code == 200
+
+    # editor attempts to delete -> 404 (cannot see delete outcome per router)
+    res = client.delete(f"/api/projects/{project_id}", headers=editor_headers)
+    assert res.status_code in (403, 404)
+
+
+def test_empty_update_payload_noop_and_non_member_update_404(client: TestClient):
+    # creator makes project
+    token = signup_and_login(client, "upd@example.com", "password123")
+    headers = {"Authorization": f"Bearer {token}"}
+    res = client.post("/api/projects/", json={"title": "U", "description": "D"}, headers=headers)
+    assert res.status_code == 201
+    project_id = res.json()["id"]
+
+    # Empty update payload should succeed and not error
+    res = client.put(f"/api/projects/{project_id}", json={}, headers=headers)
+    assert res.status_code == 200
+    body = res.json()
+    assert body["title"] == "U"
+    assert body["description"] == "D"
+
+    # Non-member update should 404 (cannot see project)
+    outsider_token = signup_and_login(client, "updoutsider@example.com", "password123")
+    outsider_headers = {"Authorization": f"Bearer {outsider_token}"}
+    res = client.put(f"/api/projects/{project_id}", json={"title": "new"}, headers=outsider_headers)
+    assert res.status_code == 404
+
+
 def test_editor_can_update_project(client: TestClient):
     # user1 creates project
     token1 = signup_and_login(client, "user1@example.com", "password123")
