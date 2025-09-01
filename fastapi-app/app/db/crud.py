@@ -161,4 +161,51 @@ def update_user_role(db: Session, current_user_id: int, project_id: int, user_id
     return membership
 
 
+def remove_user_from_project(db: Session, current_user_id: int, project_id: int, user_id: int) -> bool:
+    # Only owners can remove users
+    owner_membership = (
+        db.query(models.ProjectMembership)
+        .filter(
+            models.ProjectMembership.user_id == current_user_id,
+            models.ProjectMembership.project_id == project_id,
+            models.ProjectMembership.role == "owner",
+        )
+        .first()
+    )
+    if owner_membership is None:
+        return False
+    membership = (
+        db.query(models.ProjectMembership)
+        .filter(
+            models.ProjectMembership.user_id == user_id,
+            models.ProjectMembership.project_id == project_id,
+        )
+        .first()
+    )
+    if membership is None:
+        return False
+    db.delete(membership)
+    db.commit()
+    return True
+
+
+def list_memberships(db: Session, current_user_id: int, project_id: int) -> list[models.ProjectMembership]:
+    # Any member can list memberships for the project
+    is_member = (
+        db.query(models.ProjectMembership)
+        .filter(
+            models.ProjectMembership.user_id == current_user_id,
+            models.ProjectMembership.project_id == project_id,
+        )
+        .first()
+    )
+    if not is_member:
+        return []
+    return (
+        db.query(models.ProjectMembership)
+        .filter(models.ProjectMembership.project_id == project_id)
+        .all()
+    )
+
+
 
