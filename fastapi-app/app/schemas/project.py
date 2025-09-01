@@ -3,21 +3,21 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class ItemBase(BaseModel):
+class ProjectBase(BaseModel):
     title: str
     description: Optional[str] = None
 
 
-class ItemCreate(ItemBase):
+class ProjectCreate(ProjectBase):
     pass
 
 
-class ItemUpdate(BaseModel):
+class ProjectUpdate(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
 
 
-class ItemOut(ItemBase):
+class ProjectOut(ProjectBase):
     id: int
 
     class Config:

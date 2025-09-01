@@ -25,6 +25,8 @@ def _create_test_db():
     from app.db.base import Base  # noqa: WPS433
     from app.db.session import engine  # noqa: WPS433
 
+    # Ensure a clean slate in case a prior run left incompatible tables
+    Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
     yield
     # Optional cleanup

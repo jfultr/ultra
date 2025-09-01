@@ -32,56 +32,57 @@ def authenticate_user(db: Session, email: str, password: str) -> Optional[models
     return user
 
 
-# Items
-def get_items(db: Session, owner_id: int, skip: int = 0, limit: int = 100) -> list[models.Item]:
+# Projects
+def get_projects(db: Session, owner_id: int, skip: int = 0, limit: int = 100) -> list[models.Project]:
     return (
-        db.query(models.Item)
-        .filter(models.Item.owner_id == owner_id)
+        db.query(models.Project)
+        .filter(models.Project.owner_id == owner_id)
         .offset(skip)
         .limit(limit)
         .all()
     )
 
 
-def get_item(db: Session, owner_id: int, item_id: int) -> Optional[models.Item]:
-    return db.query(models.Item).filter(models.Item.owner_id == owner_id, models.Item.id == item_id).first()
+def get_project(db: Session, owner_id: int, project_id: int) -> Optional[models.Project]:
+    return db.query(models.Project).filter(models.Project.owner_id == owner_id, models.Project.id == project_id).first()
 
 
-def create_item(db: Session, owner_id: int, title: str, description: Optional[str]) -> models.Item:
-    item = models.Item(owner_id=owner_id, title=title, description=description)
-    db.add(item)
+def create_project(db: Session, owner_id: int, title: str, description: Optional[str]) -> models.Project:
+    project = models.Project(owner_id=owner_id, title=title, description=description)
+    db.add(project)
     db.commit()
-    db.refresh(item)
-    return item
+    db.refresh(project)
+    return project
 
 
-def update_item(
+def update_project(
     db: Session,
     owner_id: int,
-    item_id: int,
+    project_id: int,
     *,
     title: Optional[str] = None,
     description: Optional[str] = None,
-) -> Optional[models.Item]:
-    item = get_item(db, owner_id=owner_id, item_id=item_id)
-    if item is None:
+) -> Optional[models.Project]:
+    project = get_project(db, owner_id=owner_id, project_id=project_id)
+    if project is None:
         return None
     if title is not None:
-        item.title = title
+        project.title = title
     if description is not None:
-        item.description = description
-    db.add(item)
+        project.description = description
+    db.add(project)
     db.commit()
-    db.refresh(item)
-    return item
+    db.refresh(project)
+    return project
 
 
-def delete_item(db: Session, owner_id: int, item_id: int) -> bool:
-    item = get_item(db, owner_id=owner_id, item_id=item_id)
-    if item is None:
+def delete_project(db: Session, owner_id: int, project_id: int) -> bool:
+    project = get_project(db, owner_id=owner_id, project_id=project_id)
+    if project is None:
         return False
-    db.delete(item)
+    db.delete(project)
     db.commit()
     return True
+
 
 

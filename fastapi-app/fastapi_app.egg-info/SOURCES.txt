@@ -6,7 +6,7 @@ app/api/__init__.py
 app/api/deps.py
 app/api/routers/__init__.py
 app/api/routers/auth.py
-app/api/routers/items.py
+app/api/routers/projects.py
 app/core/config.py
 app/core/security.py
 app/db/__init__.py
@@ -22,4 +22,4 @@ fastapi_app.egg-info/SOURCES.txt
 fastapi_app.egg-info/dependency_links.txt
 fastapi_app.egg-info/requires.txt
 fastapi_app.egg-info/top_level.txt
-tests/test_items.py
+tests/test_projects.py
