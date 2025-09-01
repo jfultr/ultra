@@ -31,3 +31,22 @@ def _create_test_db():
     # Base.metadata.drop_all(bind=engine)
 
 
+from fastapi.testclient import TestClient
+from app.main import app
+
+@pytest.fixture
+def client() -> TestClient:
+    client = TestClient(app)
+    yield client
+    client.close()
+
+
+def signup_and_login(client: TestClient, email: str, password: str) -> str:
+    res = client.post("/api/auth/signup", json={"email": email, "password": password})
+    if not res.status_code == 409: 
+        assert res.status_code == 200, res.text
+
+    res = client.post("/api/auth/login", data={"username": email, "password": password})
+    assert res.status_code == 200, res.text
+    token = res.json()["access_token"]
+    return token
