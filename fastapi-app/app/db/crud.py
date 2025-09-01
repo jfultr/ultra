@@ -75,6 +75,17 @@ def update_project(
     project = get_project(db, current_user_id=current_user_id, project_id=project_id)
     if project is None:
         return None
+    # Require editor or owner role to update project
+    membership = (
+        db.query(models.ProjectMembership)
+        .filter(
+            models.ProjectMembership.user_id == current_user_id,
+            models.ProjectMembership.project_id == project_id,
+        )
+        .first()
+    )
+    if membership is None or membership.role not in ("owner", "editor"):
+        return None
     if title is not None:
         project.title = title
     if description is not None:
