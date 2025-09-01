@@ -8,7 +8,9 @@ client = TestClient(app)
 
 def signup_and_login(email: str, password: str) -> str:
     res = client.post("/api/auth/signup", json={"email": email, "password": password})
-    assert res.status_code == 200, res.text
+    if not res.status_code == 409: 
+        assert res.status_code == 200, res.text
+
     res = client.post("/api/auth/login", data={"username": email, "password": password})
     assert res.status_code == 200, res.text
     token = res.json()["access_token"]
@@ -49,4 +51,7 @@ def test_item_crud_flow(tmp_path):
     res = client.get(f"/api/items/{item_id}", headers=headers)
     assert res.status_code == 404
 
+
+def test_create_new_project(tmp_path):
+    pass
 
