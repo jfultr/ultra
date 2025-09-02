@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.api.routers import auth, projects
+from app.api.routers import auth, projects, membership
 from app.core.config import settings
 from app.db.base import Base
 from app.db.session import engine
@@ -74,6 +74,7 @@ def create_app() -> FastAPI:
     # Routers
     application.include_router(auth.router, prefix=settings.API_V1_STR)
     application.include_router(projects.router, prefix=settings.API_V1_STR)
+    application.include_router(membership.router, prefix=settings.API_V1_STR)
 
     return application
 
